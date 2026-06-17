@@ -4,6 +4,6 @@ const { submitRating } = require("../controllers/ratingController");
 const { authorize } = require("../middleware/roleMiddleware");
 const ratingRouter = express.Router();
 
-ratingRouter.post("/", auth, authorize("user"), submitRating);
+ratingRouter.post("/submit", auth, authorize("user"), submitRating);
 
 module.exports = ratingRouter;

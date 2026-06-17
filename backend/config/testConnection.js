@@ -1,10 +1,16 @@
 const db = require("./db");
 
-db.getConnection((err, connection) => {
-  if (err) {
-    console.log("Database Error:", err);
-  } else {
-    console.log("MySQL Connected Successfully");
+const testConnection = async () => {
+  try {
+    const connection = await db.getConnection();
+
+    console.log("✅ MySQL Connected Successfully");
+
     connection.release();
+  } catch (error) {
+    console.error("❌ MySQL Connection Failed");
+    console.error(error.message);
   }
-});
+};
+
+testConnection();

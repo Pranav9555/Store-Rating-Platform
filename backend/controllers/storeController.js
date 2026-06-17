@@ -2,17 +2,40 @@ const db = require("../config/db");
 
 //store listing API
 exports.getStores = async (req, res) => {
-  const [stores] = await db.promise().query(`
-    SELECT
-      s.id,
-      s.name,
-      s.address,
-      ROUND(AVG(r.rating),1) AS rating
-    FROM stores s
-    LEFT JOIN ratings r
-      ON s.id = r.store_id
-    GROUP BY s.id
-  `);
+  try {
+    const userId = req.user.id; // logged-in user
 
-  res.json(stores);
+    const [stores] = await db.query(
+      `
+      SELECT 
+        s.id,
+        s.name,
+        s.address,
+
+        -- overall rating
+        (
+          SELECT ROUND(AVG(r.rating),1)
+          FROM ratings r
+          WHERE r.store_id = s.id
+        ) AS overallRating,
+
+        -- THIS USER'S rating
+        (
+          SELECT r.rating
+          FROM ratings r
+          WHERE r.store_id = s.id
+          AND r.user_id = ?
+        ) AS userRating
+
+      FROM stores s
+      `,
+      [userId]
+    );
+
+    res.json(stores);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
 };

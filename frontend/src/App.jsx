@@ -5,6 +5,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import OwnerDashboard from "./pages/OwnerDashboard";
 
+import "./App.css";
+import UserDetails from "./components/UserDetails";
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
 
         <Route path="/user" element={<UserDashboard />} />
+        <Route path="/admin/user/:id" element={<UserDetails />} />
 
         <Route path="/owner" element={<OwnerDashboard />} />
       </Routes>
