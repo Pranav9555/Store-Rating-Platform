@@ -35,19 +35,9 @@ exports.addStore = async (req, res) => {
     owner_id,
   } = req.body;
 
-  // Name Validation
-if (name.length < 20 || name.length > 60) {
-  return res.status(400).json({
-    message: "Name must be between 20 and 60 characters",
-  });
-}
 
-// Address Validation
-if (address.length > 400) {
-  return res.status(400).json({
-    message: "Address cannot exceed 400 characters",
-  });
-}
+
+
 
 // Email Validation
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
